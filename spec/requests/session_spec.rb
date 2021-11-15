@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe "Sessions", type: :request do
   def valid_attributes
-    return { session: { email: "leofrederiche@gmail.com", password: "123" } }
+    return { email: "leofrederiche@gmail.com", password: "123" }
   end
 
   def invalid_attributes
-    return { session: { username: "Leonardo Camp", password: "123" } }
+    return { username: "Leonardo Camp", password: "123" }
   end
 
   describe "GET /new" do
@@ -17,16 +17,18 @@ RSpec.describe "Sessions", type: :request do
   end
 
   describe "POST /create" do
-    it "Create Session" do
-      post login_path, params: valid_attributes
+    it "Valid Session" do
+      User.create!(valid_attributes)
+
+      post login_path, params: { session: valid_attributes }
           
-      expect(session[:current_id]) != nil
+      expect(assigns(session[:user_id])).not_to be_nil
     end
 
     it "Invalid Session" do
-      post login_path, params: invalid_attributes
+      post login_path, params: { session: invalid_attributes }
           
-      expect(session[:current_id]) == nil
+      expect(assigns(session)).to be_nil
     end 
   end
 end
