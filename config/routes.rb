@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  resources :movements
+  resources :categories
   root "sessions#welcome"
 
   resources :users, only: [:new, :create]
